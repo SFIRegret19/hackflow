@@ -1,0 +1,233 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum GlobalRole {
+  PARTICIPANT
+  ORGANIZER
+  JUDGE
+}
+
+enum HackathonStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+}
+
+enum TeamMemberRole {
+  CAPTAIN
+  MEMBER
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+enum ProjectStatus {
+  DRAFT
+  SUBMITTED
+}
+
+enum EvaluationStatus {
+  DRAFT
+  SUBMITTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique @db.VarChar(254)
+  name         String?  @db.VarChar(100)
+  passwordHash String   @db.VarChar(255)
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(3)
+
+  roles             UserRole[]
+  createdHackathons Hackathon[]      @relation("HackathonCreator")
+  createdTeams      Team[]           @relation("TeamCreator")
+  memberships       Member[]
+  sentInvitations   TeamInvitation[] @relation("InvitationSender")
+  judge             Judge?
+}
+
+model UserRole {
+  id        String     @id @default(cuid())
+  userId    String
+  role      GlobalRole
+  createdAt DateTime   @default(now()) @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, role])
+  @@index([role])
+}
+
+model Hackathon {
+  id          String          @id @default(cuid())
+  name        String          @db.VarChar(150)
+  theme       String          @db.VarChar(200)
+  description String?         @db.Text
+  startAt     DateTime        @db.Timestamptz(3)
+  endAt       DateTime        @db.Timestamptz(3)
+  status      HackathonStatus @default(DRAFT)
+  createdById String
+  createdAt   DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime        @updatedAt @db.Timestamptz(3)
+
+  createdBy User             @relation("HackathonCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  teams     Team[]
+  criteria  Criterion[]
+  judges    HackathonJudge[]
+
+  @@index([status, startAt])
+  @@index([endAt])
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(100)
+  hackathonId String
+  createdById String
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
+
+  hackathon   Hackathon        @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  createdBy   User             @relation("TeamCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  members     Member[]
+  invitations TeamInvitation[]
+  project     Project?
+
+  @@unique([hackathonId, name])
+  @@index([hackathonId])
+}
+
+model Member {
+  id       String         @id @default(cuid())
+  teamId   String
+  userId   String
+  role     TeamMemberRole @default(MEMBER)
+  joinedAt DateTime       @default(now()) @db.Timestamptz(3)
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@index([teamId, role])
+}
+
+model TeamInvitation {
+  id          String           @id @default(cuid())
+  teamId      String
+  email       String           @db.VarChar(254)
+  tokenHash   String           @unique @db.VarChar(64)
+  status      InvitationStatus @default(PENDING)
+  expiresAt   DateTime         @db.Timestamptz(3)
+  acceptedAt  DateTime?        @db.Timestamptz(3)
+  invitedById String
+  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
+
+  team      Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invitedBy User @relation("InvitationSender", fields: [invitedById], references: [id], onDelete: Restrict)
+
+  @@index([teamId, status])
+  @@index([email, status])
+}
+
+model Project {
+  id            String        @id @default(cuid())
+  teamId        String        @unique
+  name          String        @db.VarChar(160)
+  description   String        @db.Text
+  repositoryUrl String        @db.VarChar(2048)
+  status        ProjectStatus @default(DRAFT)
+  submittedAt   DateTime?     @db.Timestamptz(3)
+  createdAt     DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime      @updatedAt @db.Timestamptz(3)
+
+  team        Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  evaluations Evaluation[]
+
+  @@index([status])
+}
+
+model Judge {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+  hackathons  HackathonJudge[]
+  evaluations Evaluation[]
+}
+
+model HackathonJudge {
+  id          String   @id @default(cuid())
+  hackathonId String
+  judgeId     String
+  assignedAt  DateTime @default(now()) @db.Timestamptz(3)
+
+  hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  judge     Judge     @relation(fields: [judgeId], references: [id], onDelete: Cascade)
+
+  @@unique([hackathonId, judgeId])
+  @@index([judgeId])
+}
+
+model Criterion {
+  id          String   @id @default(cuid())
+  hackathonId String
+  name        String   @db.VarChar(120)
+  description String?  @db.Text
+  maxScore    Int
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
+
+  hackathon Hackathon @relation(fields: [hackathonId], references: [id], onDelete: Cascade)
+  grades    Grade[]
+
+  @@unique([hackathonId, name])
+  @@index([hackathonId, sortOrder])
+}
+
+model Evaluation {
+  id          String           @id @default(cuid())
+  projectId   String
+  judgeId     String
+  status      EvaluationStatus @default(DRAFT)
+  submittedAt DateTime?        @db.Timestamptz(3)
+  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime         @updatedAt @db.Timestamptz(3)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  judge   Judge   @relation(fields: [judgeId], references: [id], onDelete: Restrict)
+  grades  Grade[]
+
+  @@unique([projectId, judgeId])
+  @@index([judgeId, status])
+}
+
+model Grade {
+  id           String   @id @default(cuid())
+  evaluationId String
+  criterionId  String
+  score        Int
+  comment      String?  @db.Text
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(3)
+
+  evaluation Evaluation @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
+  criterion  Criterion  @relation(fields: [criterionId], references: [id], onDelete: Restrict)
+
+  @@unique([evaluationId, criterionId])
+  @@index([criterionId])
+}
