@@ -8,6 +8,7 @@ import { authRouter } from "./modules/auth/auth.routes.ts";
 import { requireAuth } from "./modules/auth/auth.middleware.ts";
 import { requireRole } from "./modules/auth/role.middleware.ts";
 import { publicHackathonRouter, organizerHackathonRouter } from "./modules/hackathons/hackathon.routes.ts";
+import { criteriaRouter } from "./modules/hackathons/criteria.routes.ts";
 
 const app = express();
 
@@ -74,6 +75,11 @@ app.get(
 );
 
 app.use("/api/hackathons", publicHackathonRouter);
+
+app.use(
+  "/api/organizer/hackathons/:hackathonId/criteria",
+  criteriaRouter,
+);
 
 app.use("/api/organizer/hackathons", organizerHackathonRouter);
 
