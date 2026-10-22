@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import { env } from "./config/env.ts";
 import { prisma } from "./config/prisma.ts";
 import { authRouter } from "./modules/auth/auth.routes.ts";
+import { requireAuth } from "./modules/auth/auth.middleware.ts";
+import { requireRole } from "./modules/auth/role.middleware.ts";
 
 const app = express();
 
@@ -57,6 +59,18 @@ app.get("/api/health/db", async (_req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+
+app.get(
+  "/api/organizer/dashboard",
+  requireAuth,
+  requireRole("ORGANIZER"),
+  (_req, res) => {
+    res.status(200).json({
+      status: "ok",
+      message: "Доступ организатора подтверждён.",
+    });
+  },
+);
 
 app.listen(env.PORT, "127.0.0.1", () => {
   console.log(
