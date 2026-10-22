@@ -10,7 +10,7 @@ type ApiErrorPayload = {
 };
 
 type ApiOptions = {
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: unknown;
 };
 

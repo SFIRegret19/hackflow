@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import "./App.css";
 import { apiRequest } from "./lib/api";
+import OrganizerDashboard from "./pages/OrganizerDashboard";
 
 type Role = "PARTICIPANT" | "ORGANIZER" | "JUDGE";
 
@@ -142,6 +143,25 @@ function App() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (
+    !checkingSession &&
+    user !== null &&
+    user.roles.some(({ role }) => role === "ORGANIZER")
+  ) {
+    return (
+      <OrganizerDashboard
+        user={user}
+        onLogoutSuccess={() => {
+          setUser(null);
+          setMode("login");
+          setPassword("");
+          setError("");
+          setNotice("");
+        }}
+      />
+    );
   }
 
   const displayName =
