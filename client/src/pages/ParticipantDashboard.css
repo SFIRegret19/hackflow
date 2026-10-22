@@ -1,0 +1,454 @@
+.participant-role-label {
+  padding: 7px 10px;
+  border: 1px solid #e3defe;
+  border-radius: 8px;
+  color: #5c49c1;
+  background: #f4f1ff;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.participant-workspace {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.76fr) minmax(0, 1.55fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.participant-event-panel,
+.participant-team-panel {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid #e9e8f1;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 5px 16px #26213d05;
+}
+
+.participant-panel-heading {
+  margin-bottom: 18px;
+}
+
+.participant-panel-heading h2 {
+  margin: 8px 0 0;
+  color: #25233a;
+  font-size: 21px;
+  letter-spacing: -0.6px;
+  overflow-wrap: anywhere;
+}
+
+.participant-event-list {
+  display: grid;
+  gap: 8px;
+}
+
+.participant-event {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 9px minmax(0, 1fr) 14px;
+  align-items: start;
+  gap: 11px;
+  padding: 13px 11px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  color: #333047;
+  background: transparent;
+  text-align: left;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.participant-event:hover {
+  background: #faf9ff;
+}
+
+.participant-event.active {
+  border-color: #ded8ff;
+  background: #f4f1ff;
+}
+
+.participant-event-dot {
+  width: 8px;
+  height: 8px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: #9e97bc;
+}
+
+.participant-event.active .participant-event-dot {
+  background: #6954db;
+  box-shadow: 0 0 0 4px #6954db17;
+}
+
+.participant-event-copy {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.participant-event-copy strong {
+  color: #302e44;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.participant-event-copy small {
+  color: #858297;
+  font-size: 10px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.participant-event-arrow {
+  color: #8d83ca;
+  font-size: 20px;
+  text-align: right;
+}
+
+.participant-no-events {
+  display: grid;
+  justify-items: center;
+  gap: 11px;
+  padding: 25px 8px;
+  text-align: center;
+}
+
+.participant-no-events > span {
+  width: 41px;
+  height: 41px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #6954db;
+  background: #f1eeff;
+  font-size: 23px;
+}
+
+.participant-no-events strong {
+  color: #37344c;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.participant-no-events p {
+  margin: 0;
+  color: #858398;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.participant-event-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.participant-event-heading h2 {
+  margin: 9px 0 7px;
+  color: #25233a;
+  font-size: 25px;
+  line-height: 1.3;
+  letter-spacing: -0.8px;
+  overflow-wrap: anywhere;
+}
+
+.participant-event-heading p {
+  margin: 0;
+  color: #6954db;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.6;
+}
+
+.participant-event-date {
+  flex-shrink: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #5c49c1;
+  background: #f4f1ff;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.participant-event-description {
+  margin-top: 17px;
+  color: #858297;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.participant-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 23px;
+  padding: 15px 0;
+  border-top: 1px solid #efedf5;
+  border-bottom: 1px solid #efedf5;
+}
+
+.participant-facts > div {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.participant-facts span {
+  color: #8c899e;
+  font-size: 10px;
+}
+
+.participant-facts strong {
+  color: #39364e;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.participant-team-content {
+  margin-top: 25px;
+}
+
+.participant-team-summary {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  border: 1px solid #e8e3ff;
+  border-radius: 12px;
+  background: #f9f7ff;
+}
+
+.participant-team-count {
+  width: 53px;
+  height: 53px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #eee9ff;
+}
+
+.participant-team-count strong {
+  color: #5844c4;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.participant-team-count span {
+  margin-top: 4px;
+  color: #786bb9;
+  font-size: 8px;
+}
+
+.participant-team-summary > div:last-child {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.participant-team-summary > div:last-child strong {
+  color: #413769;
+  font-size: 12px;
+}
+
+.participant-team-summary p {
+  margin: 0;
+  color: #89839f;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.participant-member-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.participant-member {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px;
+  border: 1px solid #eeecf4;
+  border-radius: 11px;
+}
+
+.participant-member-avatar {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 11px;
+  color: #5f4bc6;
+  background: #f0edff;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.participant-member > div {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.participant-member > div strong {
+  color: #343148;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.participant-member > div span {
+  color: #89869b;
+  font-size: 10px;
+}
+
+.participant-captain-badge {
+  padding: 6px 8px;
+  border-radius: 7px;
+  color: #5b49bb;
+  background: #f0edff;
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.participant-create-form,
+.participant-invite-form,
+.participant-closed-state {
+  display: grid;
+  gap: 11px;
+  margin-top: 16px;
+  padding: 17px;
+  border: 1px solid #eeecf4;
+  border-radius: 12px;
+  background: #fcfbfe;
+}
+
+.participant-create-form > p,
+.participant-closed-state p {
+  margin: 0 0 4px;
+  color: #858297;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.participant-create-form label,
+.participant-invite-form label {
+  color: #3a384f;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.participant-create-form input,
+.participant-invite-form input {
+  width: 100%;
+  min-width: 0;
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid #e3e1ec;
+  border-radius: 9px;
+  outline: none;
+  color: #27253b;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+}
+
+.participant-create-form input:focus,
+.participant-invite-form input:focus {
+  border-color: #9587ed;
+  box-shadow: 0 0 0 3px #6954db18;
+}
+
+.participant-create-form > .org-primary-button {
+  width: 100%;
+  margin-top: 3px;
+}
+
+.participant-invite-form {
+  margin-top: 23px;
+}
+
+.participant-invite-form .participant-panel-heading {
+  margin-bottom: 2px;
+}
+
+.participant-panel-heading h3 {
+  margin: 8px 0 0;
+  color: #343148;
+  font-size: 15px;
+}
+
+.participant-invite-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+}
+
+.participant-form-hint {
+  margin: 0;
+  color: #9491a4;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.participant-closed-state > strong {
+  color: #6f4c24;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .participant-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .participant-event-panel {
+    padding: 19px;
+  }
+
+  .participant-event-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .participant-role-label {
+    display: none;
+  }
+
+  .participant-event-list {
+    grid-template-columns: 1fr;
+  }
+
+  .participant-team-panel {
+    padding: 18px;
+  }
+
+  .participant-event-heading {
+    flex-direction: column;
+  }
+
+  .participant-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .participant-invite-row {
+    grid-template-columns: 1fr;
+  }
+
+  .participant-invite-row button {
+    width: 100%;
+  }
+
+  .participant-captain-badge {
+    display: none;
+  }
+}

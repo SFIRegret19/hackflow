@@ -143,7 +143,14 @@ const listPublishedHandler: RequestHandler = async (_req, res) => {
       include: publicInclude,
     });
 
-    res.status(200).json({ hackathons });
+    const now = new Date();
+
+    res.status(200).json({
+      hackathons: hackathons.map((hackathon) => ({
+        ...hackathon,
+        registrationOpen: hackathon.startAt > now,
+      })),
+    });
   } catch (error) {
     console.error("Listing hackathons failed:", error);
 
@@ -175,7 +182,12 @@ const getPublishedHandler: RequestHandler = async (req, res) => {
       return;
     }
 
-    res.status(200).json({ hackathon });
+    res.status(200).json({
+      hackathon: {
+        ...hackathon,
+        registrationOpen: hackathon.startAt > new Date(),
+      },
+    });
   } catch (error) {
     console.error("Getting public hackathon failed:", error);
 

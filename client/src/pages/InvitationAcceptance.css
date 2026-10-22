@@ -1,0 +1,136 @@
+.invitation-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  background:
+    radial-gradient(ellipse at 15% 10%, #ebe7ff 0%, transparent 36%),
+    #f6f6fa;
+}
+
+.invitation-brand {
+  width: min(100%, 980px);
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #25233a;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.invitation-brand-mark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #fff;
+  background: #6954db;
+  font-size: 22px;
+  box-shadow: 0 5px 15px #6954db25;
+}
+
+.invitation-card {
+  width: min(100%, 470px);
+  margin: auto 0;
+  padding: 38px;
+  border: 1px solid #e9e7f2;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 20px 70px #28213d0c;
+  text-align: center;
+}
+
+.invitation-symbol {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 25px;
+  border-radius: 18px;
+  color: #6954db;
+  background: #f1eeff;
+  font-size: 27px;
+  font-weight: 750;
+}
+
+.invitation-symbol.success {
+  color: #1c8c70;
+  background: #e9f8f1;
+}
+
+.invitation-symbol.warning {
+  color: #a8752a;
+  background: #fff4e3;
+}
+
+.invitation-card h1 {
+  margin: 12px 0;
+  color: #25233a;
+  font-size: clamp(24px, 5vw, 31px);
+  line-height: 1.3;
+  letter-spacing: -1px;
+}
+
+.invitation-card > p {
+  margin: 0;
+  color: #77758a;
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.invitation-card > p strong {
+  color: #37334f;
+  font-weight: 700;
+}
+
+.invitation-action {
+  width: 100%;
+  min-height: 47px;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.invitation-secondary-action {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: #6954db;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.invitation-secondary-action:hover:not(:disabled) {
+  background: #f7f5ff;
+}
+
+.invitation-secondary-action:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.invitation-footnote {
+  margin-top: 25px;
+  padding-top: 17px;
+  border-top: 1px solid #efedf5;
+  color: #9693a5;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .invitation-page {
+    padding: 20px 14px;
+  }
+
+  .invitation-card {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+}

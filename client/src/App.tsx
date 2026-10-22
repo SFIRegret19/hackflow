@@ -2,6 +2,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import "./App.css";
 import { apiRequest } from "./lib/api";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
+import ParticipantDashboard from "./pages/ParticipantDashboard";
+import InvitationAcceptance from "./pages/InvitationAcceptance";
 
 type Role = "PARTICIPANT" | "ORGANIZER" | "JUDGE";
 
@@ -109,6 +111,14 @@ function App() {
       setUser(data.user);
       setPassword("");
       setNotice("");
+      const returnTo = new URLSearchParams(window.location.search).get(
+        "returnTo",
+      );
+
+      if (returnTo?.startsWith("/invitations/accept")) {
+        window.location.assign(returnTo);
+        return;
+      }
     } catch (err) {
       setError(
         err instanceof Error
@@ -145,6 +155,15 @@ function App() {
     }
   }
 
+  if (window.location.pathname === "/invitations/accept") {
+    return (
+      <InvitationAcceptance
+        user={user}
+        checkingSession={checkingSession}
+      />
+    );
+  }
+
   if (
     !checkingSession &&
     user !== null &&
@@ -152,6 +171,25 @@ function App() {
   ) {
     return (
       <OrganizerDashboard
+        user={user}
+        onLogoutSuccess={() => {
+          setUser(null);
+          setMode("login");
+          setPassword("");
+          setError("");
+          setNotice("");
+        }}
+      />
+    );
+  }
+
+  if (
+    !checkingSession &&
+    user !== null &&
+    user.roles.some(({ role }) => role === "PARTICIPANT")
+  ) {
+    return (
+      <ParticipantDashboard
         user={user}
         onLogoutSuccess={() => {
           setUser(null);
