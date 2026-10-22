@@ -9,6 +9,7 @@ import { requireAuth } from "./modules/auth/auth.middleware.ts";
 import { requireRole } from "./modules/auth/role.middleware.ts";
 import { publicHackathonRouter, organizerHackathonRouter } from "./modules/hackathons/hackathon.routes.ts";
 import { criteriaRouter } from "./modules/hackathons/criteria.routes.ts";
+import { hackathonTeamsRouter, teamsRouter, invitationsRouter } from "./modules/teams/teams.routes.ts";
 
 const app = express();
 
@@ -82,6 +83,15 @@ app.use(
 );
 
 app.use("/api/organizer/hackathons", organizerHackathonRouter);
+
+app.use(
+  "/api/hackathons/:hackathonId/teams",
+  hackathonTeamsRouter,
+);
+
+app.use("/api/teams", teamsRouter);
+
+app.use("/api/invitations", invitationsRouter);
 
 app.listen(env.PORT, "127.0.0.1", () => {
   console.log(
