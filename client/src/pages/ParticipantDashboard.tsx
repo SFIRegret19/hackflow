@@ -471,7 +471,7 @@ export default function ParticipantDashboard({
 
         {/* Профиль и выход — один блок справа */}
         <div className="org-topbar-right">
-          <span className="org-role-label">Организатор</span>
+          <span className="org-role-label">Участник</span>
 
           <div className="org-user">
             <span className="org-avatar">
