@@ -8,6 +8,7 @@ import {
 
 import { apiRequest } from "../lib/api";
 import CriteriaPanel, { type Criterion } from "./CriteriaPanel";
+import HackathonResultsPanel from "./HackathonResultsPanel";
 import "./OrganizerDashboard.css";
 
 type Role = "PARTICIPANT" | "ORGANIZER" | "JUDGE";
@@ -117,6 +118,11 @@ export default function OrganizerDashboard({
   const [form, setForm] = useState<HackathonForm>(createEmptyForm);
 
   const [selectedForCriteria, setSelectedForCriteria] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
+
+  const [selectedForResults, setSelectedForResults] = useState<{
     id: string;
     name: string;
   } | null>(null);
@@ -689,6 +695,20 @@ export default function OrganizerDashboard({
                     </div>
 
                     <div className="org-card-actions">
+                      {hackathon.status !== "DRAFT" && (
+                        <button
+                          className="org-secondary-button"
+                          type="button"
+                          onClick={() =>
+                            setSelectedForResults({
+                              id: hackathon.id,
+                              name: hackathon.name,
+                            })
+                          }
+                        >
+                          Результаты и рейтинг
+                        </button>
+                      )}
                       {hackathon.status === "DRAFT" && (
                         <>
                           <button
@@ -762,6 +782,13 @@ export default function OrganizerDashboard({
           hackathon={selectedForCriteria}
           onClose={() => setSelectedForCriteria(null)}
           onChanged={() => void loadHackathons()}
+        />
+      )}
+      {selectedForResults && (
+        <HackathonResultsPanel
+          hackathonId={selectedForResults.id}
+          hackathonName={selectedForResults.name}
+          onClose={() => setSelectedForResults(null)}
         />
       )}
     </div>

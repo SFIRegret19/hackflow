@@ -13,6 +13,7 @@ import { hackathonTeamsRouter, teamsRouter, invitationsRouter } from "./modules/
 import { teamProjectsRouter } from "./modules/projects/projects.routes.ts";
 import { organizerJudgesRouter } from "./modules/judging/assignments.routes.ts";
 import { judgeRouter } from "./modules/judging/judge.routes.ts";
+import { organizerResultsRouter } from "./modules/judging/results.routes.ts";
 
 const app = express();
 
@@ -91,6 +92,11 @@ app.use(
 );
 
 app.use("/api/judge", judgeRouter);
+
+app.use(
+  "/api/organizer/hackathons/:hackathonId/results",
+  organizerResultsRouter,
+);
 
 app.use("/api/organizer/hackathons", organizerHackathonRouter);
 
