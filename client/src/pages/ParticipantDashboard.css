@@ -453,49 +453,62 @@
   }
 }
 
+/* Карточка проекта */
 .participant-project-card {
   position: relative;
   isolation: isolate;
-  margin-top: 28px;
-  padding: 24px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  border-radius: 18px;
-  background: rgba(15, 23, 42, 0.45);
+  min-width: 0;
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid #e9e8f1;
+  border-radius: 16px;
+  background: #fcfbff;
 }
 
+/* Форма проекта */
 .participant-project-form {
   display: grid;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .participant-project-form label {
   margin-top: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  color: #3a384f;
+  font-size: 12px;
+  font-weight: 650;
 }
 
 .participant-project-form input,
 .participant-project-form textarea {
   width: 100%;
+  min-width: 0;
   box-sizing: border-box;
-  padding: 12px 14px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  border-radius: 10px;
-  background: rgba(15, 23, 42, 0.65);
-  color: inherit;
+  padding: 11px 12px;
+  border: 1px solid #e3e1ec;
+  border-radius: 9px;
+  outline: none;
+  color: #27253b;
+  background: #fff;
   font: inherit;
+  font-size: 12px;
 }
 
 .participant-project-form textarea {
+  min-height: 120px;
   resize: vertical;
-  min-height: 110px;
+  line-height: 1.6;
+}
+
+.participant-project-form input::placeholder,
+.participant-project-form textarea::placeholder {
+  color: #9a96aa;
 }
 
 .participant-project-form input:focus,
 .participant-project-form textarea:focus {
-  outline: 2px solid #60a5fa;
-  outline-offset: 2px;
+  border-color: #9587ed;
+  box-shadow: 0 0 0 3px #6954db18;
 }
 
 .participant-project-form button {
@@ -503,21 +516,31 @@
   margin-top: 8px;
 }
 
+/* Отправка проекта */
 .participant-submit-project-button {
   width: 100%;
   margin-top: 14px;
   padding: 13px 18px;
-  border: 1px solid #2563eb;
+  border: 1px solid #6954db;
   border-radius: 10px;
-  background: #2563eb;
-  color: white;
+  background: #6954db;
+  color: #fff;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
 }
 
 .participant-submit-project-button:hover:not(:disabled) {
-  background: #1d4ed8;
+  border-color: #5844c4;
+  background: #5844c4;
+}
+
+.participant-submit-project-button:focus-visible {
+  outline: 2px solid #9587ed;
+  outline-offset: 3px;
 }
 
 .participant-submit-project-button:disabled {
@@ -525,46 +548,82 @@
   opacity: 0.65;
 }
 
+/* Статус отправленного проекта */
 .participant-project-status {
   position: relative;
   z-index: 1;
-  pointer-events: auto;
   margin-top: 18px;
   overflow-wrap: anywhere;
 }
 
 .participant-project-status h4 {
   margin: 18px 0 8px;
-  font-size: 1.2rem;
+  color: #343148;
+  font-size: 19px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .participant-project-status p {
-  line-height: 1.6;
+  color: #6f6b82;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
 .participant-project-status a {
   display: inline-flex;
   position: relative;
   z-index: 5;
-  pointer-events: auto;
-  cursor: pointer;
-  color: #60a5fa;
+  max-width: 100%;
+  margin-top: 4px;
+  color: #5c49c1;
   text-decoration: underline;
   overflow-wrap: anywhere;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.participant-project-status a:hover {
+  color: #4533a7;
 }
 
 .participant-project-badge {
   display: inline-flex;
+  align-items: center;
   padding: 6px 10px;
-  border: 1px solid rgba(52, 211, 153, 0.4);
+  border: 1px solid #ccebdd;
   border-radius: 999px;
-  color: #6ee7b7;
-  font-size: 0.8rem;
-  font-weight: 600;
+  color: #19734e;
+  background: #effaf4;
+  font-size: 11px;
+  font-weight: 650;
 }
 
 .participant-project-date {
   margin-top: 16px;
-  font-size: 0.85rem;
-  opacity: 0.75;
+  font-size: 11px;
+  color: #89869b;
+}
+
+/* Адаптация карточки проекта для телефона */
+@media (max-width: 560px) {
+  .participant-project-card {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 13px;
+  }
+
+  .participant-project-form {
+    gap: 9px;
+  }
+
+  .participant-project-form button {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .participant-submit-project-button {
+    width: 100%;
+  }
 }

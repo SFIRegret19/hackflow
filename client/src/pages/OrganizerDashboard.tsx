@@ -343,7 +343,14 @@ export default function OrganizerDashboard({
 
   return (
     <div className="org-shell">
-      <header className="org-topbar">
+      <header
+        className={
+          showDashboardSwitcher
+            ? "org-topbar org-topbar--switchable"
+            : "org-topbar"
+        }
+      >
+        {/* Логотип — только один */}
         <a
           className="org-brand"
           href="/"
@@ -353,37 +360,39 @@ export default function OrganizerDashboard({
           <span className="org-brand-name">hackflow</span>
         </a>
 
+        {/* Переключатель кабинетов */}
+        {showDashboardSwitcher && (
+          <nav className="dashboard-switcher" aria-label="Выбор кабинета">
+            <button
+              type="button"
+              className={
+                activeDashboard === "ORGANIZER"
+                  ? "dashboard-switcher__button is-active"
+                  : "dashboard-switcher__button"
+              }
+              onClick={() => onDashboardViewChange("ORGANIZER")}
+              aria-pressed={activeDashboard === "ORGANIZER"}
+            >
+              Организатор
+            </button>
+
+            <button
+              type="button"
+              className={
+                activeDashboard === "PARTICIPANT"
+                  ? "dashboard-switcher__button is-active"
+                  : "dashboard-switcher__button"
+              }
+              onClick={() => onDashboardViewChange("PARTICIPANT")}
+              aria-pressed={activeDashboard === "PARTICIPANT"}
+            >
+              Участник
+            </button>
+          </nav>
+        )}
+
+        {/* Профиль и выход — один блок справа */}
         <div className="org-topbar-right">
-          {showDashboardSwitcher && (
-            <nav className="dashboard-switcher" aria-label="Выбор кабинета">
-              <button
-                type="button"
-                className={
-                  activeDashboard === "ORGANIZER"
-                    ? "dashboard-switcher__button is-active"
-                    : "dashboard-switcher__button"
-                }
-                onClick={() => onDashboardViewChange("ORGANIZER")}
-                aria-pressed={activeDashboard === "ORGANIZER"}
-              >
-                Организатор
-              </button>
-
-              <button
-                type="button"
-                className={
-                  activeDashboard === "PARTICIPANT"
-                    ? "dashboard-switcher__button is-active"
-                    : "dashboard-switcher__button"
-                }
-                onClick={() => onDashboardViewChange("PARTICIPANT")}
-                aria-pressed={activeDashboard === "PARTICIPANT"}
-              >
-                Участник
-              </button>
-            </nav>
-          )}
-
           <span className="org-role-label">Организатор</span>
 
           <div className="org-user">

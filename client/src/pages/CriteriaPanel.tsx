@@ -226,7 +226,7 @@ export default function CriteriaPanel({
             onClick={onClose}
             aria-label="Закрыть"
           >
-            ×
+            <span aria-hidden="true">×</span>
           </button>
         </header>
 

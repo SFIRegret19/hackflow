@@ -714,69 +714,119 @@
   }
 }
 
+/* Переключатель кабинетов */
 .dashboard-switcher {
+  grid-column: 2;
+  justify-self: center;
   display: inline-flex;
-  flex-shrink: 0;
   align-items: center;
   gap: 4px;
+  width: max-content;
+  max-width: 100%;
   padding: 4px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border: 1px solid #e3defe;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.65);
+  background: #f4f1ff;
 }
 
 .dashboard-switcher__button {
-  padding: 8px 14px;
+  padding: 9px 16px;
   border: 1px solid transparent;
   border-radius: 999px;
   background: transparent;
-  color: #cbd5e1;
+  color: #5c49c1;
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
   transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+    background 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .dashboard-switcher__button:hover {
-  color: #ffffff;
-  background: rgba(148, 163, 184, 0.12);
+  background: #ebe6ff;
+  color: #4533a7;
 }
 
 .dashboard-switcher__button.is-active {
-  border-color: #2563eb;
-  background: #2563eb;
-  color: #ffffff;
+  background: #6954db;
+  color: #fff;
+  box-shadow: 0 2px 5px #6954db24;
 }
 
 .dashboard-switcher__button:focus-visible {
-  outline: 2px solid #93c5fd;
+  outline: 2px solid #9587ed;
   outline-offset: 3px;
 }
 
-@media (max-width: 760px) {
+/* Планшеты: переключатель на отдельной строке */
+@media (max-width: 900px) {
   .org-topbar {
-    flex-wrap: wrap;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 15px 22px;
+  }
+
+  .org-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .dashboard-switcher {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: center;
   }
 
   .org-topbar-right {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 9px;
   }
 }
 
-@media (max-width: 520px) {
+/* Телефоны */
+@media (max-width: 560px) {
+  .org-topbar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .org-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
   .dashboard-switcher {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: stretch;
     width: 100%;
     box-sizing: border-box;
-    justify-content: center;
   }
 
   .dashboard-switcher__button {
     flex: 1;
+    padding: 9px 8px;
+    font-size: 12px;
+  }
+
+  .org-topbar-right {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: stretch;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .org-topbar:not(.org-topbar--switchable) .org-topbar-right {
+    grid-row: 2;
   }
 }
