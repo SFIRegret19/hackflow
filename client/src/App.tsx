@@ -35,6 +35,9 @@ function App() {
   const [password, setPassword] = useState("");
 
   const [user, setUser] = useState<User | null>(null);
+  const [dashboardView, setDashboardView] = useState<
+    "ORGANIZER" | "PARTICIPANT"
+  >("ORGANIZER");
   const [checkingSession, setCheckingSession] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -164,41 +167,43 @@ function App() {
     );
   }
 
-  if (
-    !checkingSession &&
-    user !== null &&
-    user.roles.some(({ role }) => role === "ORGANIZER")
-  ) {
-    return (
-      <OrganizerDashboard
-        user={user}
-        onLogoutSuccess={() => {
-          setUser(null);
-          setMode("login");
-          setPassword("");
-          setError("");
-          setNotice("");
-        }}
-      />
-    );
+  const hasOrganizerRole =
+    user?.roles.some(({ role }) => role === "ORGANIZER") ?? false;
+
+  const hasParticipantRole =
+    user?.roles.some(({ role }) => role === "PARTICIPANT") ?? false;
+
+  function handleDashboardLogoutSuccess() {
+    setUser(null);
+    setMode("login");
+    setPassword("");
+    setError("");
+    setNotice("");
+    setDashboardView("ORGANIZER");
   }
 
   if (
     !checkingSession &&
     user !== null &&
-    user.roles.some(({ role }) => role === "PARTICIPANT")
+    (hasOrganizerRole || hasParticipantRole)
   ) {
-    return (
-      <ParticipantDashboard
-        user={user}
-        onLogoutSuccess={() => {
-          setUser(null);
-          setMode("login");
-          setPassword("");
-          setError("");
-          setNotice("");
-        }}
-      />
+    const activeDashboard: "ORGANIZER" | "PARTICIPANT" =
+      hasOrganizerRole && dashboardView === "ORGANIZER"
+        ? "ORGANIZER"
+        : "PARTICIPANT";
+
+    const dashboardProps = {
+      user,
+      onLogoutSuccess: handleDashboardLogoutSuccess,
+      showDashboardSwitcher: hasOrganizerRole,
+      activeDashboard,
+      onDashboardViewChange: setDashboardView,
+    };
+
+    return activeDashboard === "ORGANIZER" ? (
+      <OrganizerDashboard {...dashboardProps} />
+    ) : (
+      <ParticipantDashboard {...dashboardProps} />
     );
   }
 

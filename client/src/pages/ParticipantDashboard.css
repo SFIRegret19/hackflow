@@ -452,3 +452,119 @@
     display: none;
   }
 }
+
+.participant-project-card {
+  position: relative;
+  isolation: isolate;
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.participant-project-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.participant-project-form label {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.participant-project-form input,
+.participant-project-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.65);
+  color: inherit;
+  font: inherit;
+}
+
+.participant-project-form textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.participant-project-form input:focus,
+.participant-project-form textarea:focus {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.participant-project-form button {
+  justify-self: start;
+  margin-top: 8px;
+}
+
+.participant-submit-project-button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 18px;
+  border: 1px solid #2563eb;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.participant-submit-project-button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.participant-submit-project-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.participant-project-status {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  margin-top: 18px;
+  overflow-wrap: anywhere;
+}
+
+.participant-project-status h4 {
+  margin: 18px 0 8px;
+  font-size: 1.2rem;
+}
+
+.participant-project-status p {
+  line-height: 1.6;
+}
+
+.participant-project-status a {
+  display: inline-flex;
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+  cursor: pointer;
+  color: #60a5fa;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+.participant-project-badge {
+  display: inline-flex;
+  padding: 6px 10px;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  border-radius: 999px;
+  color: #6ee7b7;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.participant-project-date {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}

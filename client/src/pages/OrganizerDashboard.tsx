@@ -43,9 +43,14 @@ type HackathonForm = {
   endAt: string;
 };
 
+type DashboardView = "ORGANIZER" | "PARTICIPANT";
+
 type OrganizerDashboardProps = {
   user: User;
   onLogoutSuccess: () => void;
+  showDashboardSwitcher: boolean;
+  activeDashboard: DashboardView;
+  onDashboardViewChange: (view: DashboardView) => void;
 };
 
 const statusInfo: Record<
@@ -98,6 +103,9 @@ function formatDateRange(hackathon: Hackathon): string {
 export default function OrganizerDashboard({
   user,
   onLogoutSuccess,
+  showDashboardSwitcher,
+  activeDashboard,
+  onDashboardViewChange,
 }: OrganizerDashboardProps) {
   const [hackathons, setHackathons] = useState<Hackathon[]>([]);
   const [loading, setLoading] = useState(true);
@@ -346,6 +354,36 @@ export default function OrganizerDashboard({
         </a>
 
         <div className="org-topbar-right">
+          {showDashboardSwitcher && (
+            <nav className="dashboard-switcher" aria-label="Выбор кабинета">
+              <button
+                type="button"
+                className={
+                  activeDashboard === "ORGANIZER"
+                    ? "dashboard-switcher__button is-active"
+                    : "dashboard-switcher__button"
+                }
+                onClick={() => onDashboardViewChange("ORGANIZER")}
+                aria-pressed={activeDashboard === "ORGANIZER"}
+              >
+                Организатор
+              </button>
+
+              <button
+                type="button"
+                className={
+                  activeDashboard === "PARTICIPANT"
+                    ? "dashboard-switcher__button is-active"
+                    : "dashboard-switcher__button"
+                }
+                onClick={() => onDashboardViewChange("PARTICIPANT")}
+                aria-pressed={activeDashboard === "PARTICIPANT"}
+              >
+                Участник
+              </button>
+            </nav>
+          )}
+
           <span className="org-role-label">Организатор</span>
 
           <div className="org-user">

@@ -31,6 +31,18 @@ type Hackathon = {
   }>;
 };
 
+type Project = {
+  id: string;
+  teamId: string;
+  name: string;
+  description: string;
+  repositoryUrl: string;
+  status: "DRAFT" | "SUBMITTED";
+  submittedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type TeamMember = {
   id: string;
   userId: string;
@@ -54,12 +66,7 @@ type Team = {
     endAt: string;
     status: string;
   };
-  project: {
-    id: string;
-    name: string;
-    status: string;
-    submittedAt: string | null;
-  } | null;
+  project: Project | null;
 };
 
 type TeamLookup = {
@@ -69,9 +76,14 @@ type TeamLookup = {
   error?: string;
 };
 
+type DashboardView = "ORGANIZER" | "PARTICIPANT";
+
 type ParticipantDashboardProps = {
   user: User;
   onLogoutSuccess: () => void;
+  showDashboardSwitcher: boolean;
+  activeDashboard: DashboardView;
+  onDashboardViewChange: (view: DashboardView) => void;
 };
 
 function formatDate(value: string): string {
@@ -92,6 +104,9 @@ function fetchMyTeam(hackathonId: string) {
 export default function ParticipantDashboard({
   user,
   onLogoutSuccess,
+  showDashboardSwitcher,
+  activeDashboard,
+  onDashboardViewChange,
 }: ParticipantDashboardProps) {
   const [hackathons, setHackathons] = useState<Hackathon[]>([]);
   const [selectedHackathonId, setSelectedHackathonId] = useState("");
@@ -103,6 +118,11 @@ export default function ParticipantDashboard({
 
   const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
+
+  const [projectName, setProjectName] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [projectRepositoryUrl, setProjectRepositoryUrl] = useState("");
+  const [projectSaving, setProjectSaving] = useState(false);
 
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -145,15 +165,34 @@ export default function ParticipantDashboard({
     let cancelled = false;
 
     fetchMyTeam(selectedHackathonId)
-      .then((result) => {
+    .then(async (result) => {
         if (cancelled) return;
 
+        let team = result.team;
+
+        if (team) {
+        const projectDetails = await apiRequest<{
+            project: Project | null;
+        }>(`/teams/${team.id}/project`);
+
+        if (cancelled) return;
+
+        team = {
+            ...team,
+            project: projectDetails.project,
+        };
+        }
+
+        setProjectName(team?.project?.name ?? "");
+        setProjectDescription(team?.project?.description ?? "");
+        setProjectRepositoryUrl(team?.project?.repositoryUrl ?? "");
+
         setTeamLookup({
-          hackathonId: selectedHackathonId,
-          team: result.team,
-          membershipRole: result.membershipRole,
+        hackathonId: selectedHackathonId,
+        team,
+        membershipRole: result.membershipRole,
         });
-      })
+    })
       .catch((err: unknown) => {
         if (cancelled) return;
 
@@ -264,6 +303,98 @@ export default function ParticipantDashboard({
     }
   }
 
+    function updateCurrentTeamProject(project: Project) {
+    setTeamLookup((previous) => {
+        if (
+        !previous ||
+        previous.hackathonId !== selectedHackathonId ||
+        !previous.team
+        ) {
+        return previous;
+        }
+
+        return {
+        ...previous,
+        team: {
+            ...previous.team,
+            project,
+        },
+        };
+    });
+    }
+
+    async function handleSaveProject(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!currentTeam || currentLookup?.membershipRole !== "CAPTAIN") {
+        return;
+    }
+
+    setProjectSaving(true);
+    setError("");
+    setNotice("");
+
+    try {
+        const result = await apiRequest<{
+        message: string;
+        project: Project;
+        }>(`/teams/${currentTeam.id}/project`, {
+        method: "PUT",
+        body: {
+            name: projectName.trim(),
+            description: projectDescription.trim(),
+            repositoryUrl: projectRepositoryUrl.trim(),
+        },
+        });
+
+        updateCurrentTeamProject(result.project);
+        setNotice(result.message);
+    } catch (err) {
+        setError(
+        err instanceof Error
+            ? err.message
+            : "Не удалось сохранить проект.",
+        );
+    } finally {
+        setProjectSaving(false);
+    }
+    }
+
+    async function handleSubmitProject() {
+    if (!currentTeam || currentLookup?.membershipRole !== "CAPTAIN") {
+        return;
+    }
+
+    if (!currentTeam.project) {
+        setError("Сначала сохрани черновик проекта.");
+        return;
+    }
+
+    setProjectSaving(true);
+    setError("");
+    setNotice("");
+
+    try {
+        const result = await apiRequest<{
+        message: string;
+        project: Project;
+        }>(`/teams/${currentTeam.id}/project/submit`, {
+        method: "POST",
+        });
+
+        updateCurrentTeamProject(result.project);
+        setNotice(result.message);
+    } catch (err) {
+        setError(
+        err instanceof Error
+            ? err.message
+            : "Не удалось отправить проект на оценивание.",
+        );
+    } finally {
+        setProjectSaving(false);
+    }
+    }
+
   async function handleLogout() {
     setLoggingOut(true);
     setError("");
@@ -301,7 +432,37 @@ export default function ParticipantDashboard({
         </a>
 
         <div className="org-topbar-right">
-          <span className="participant-role-label">Участник</span>
+        {showDashboardSwitcher && (
+            <nav className="dashboard-switcher" aria-label="Выбор кабинета">
+            <button
+                type="button"
+                className={
+                activeDashboard === "ORGANIZER"
+                    ? "dashboard-switcher__button is-active"
+                    : "dashboard-switcher__button"
+                }
+                onClick={() => onDashboardViewChange("ORGANIZER")}
+                aria-pressed={activeDashboard === "ORGANIZER"}
+            >
+                Организатор
+            </button>
+
+            <button
+                type="button"
+                className={
+                activeDashboard === "PARTICIPANT"
+                    ? "dashboard-switcher__button is-active"
+                    : "dashboard-switcher__button"
+                }
+                onClick={() => onDashboardViewChange("PARTICIPANT")}
+                aria-pressed={activeDashboard === "PARTICIPANT"}
+            >
+                Участник
+            </button>
+            </nav>
+        )}
+
+        <span className="participant-role-label">Участник</span>
 
           <div className="org-user">
             <span className="org-avatar">
@@ -552,12 +713,155 @@ export default function ParticipantDashboard({
                             </button>
                           </div>
 
-                          <p className="participant-form-hint">
+                                                    <p className="participant-form-hint">
                             Отправим письмо со ссылкой для принятия
                             приглашения. Ссылка действует семь дней.
                           </p>
                         </form>
                       )}
+
+                      <section className="participant-project-card">
+                        <div className="participant-panel-heading">
+                          <span className="org-eyebrow">
+                            ПРОЕКТ КОМАНДЫ
+                          </span>
+                          <h3>
+                            {currentTeam.project
+                              ? "Твой проект"
+                              : "Подготовка проекта"}
+                          </h3>
+                        </div>
+
+                        {currentTeam.project?.status === "SUBMITTED" ? (
+                          <div
+                            className="participant-project-status"
+                            role="status"
+                          >
+                            <span className="participant-project-badge">
+                              Отправлен на оценивание
+                            </span>
+
+                            <h4>{currentTeam.project.name}</h4>
+                            <p>{currentTeam.project.description}</p>
+
+                            <a
+                              href={currentTeam.project.repositoryUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(event) => event.stopPropagation()}
+                            >
+                              Открыть репозиторий ↗
+                            </a>
+
+                            {currentTeam.project.submittedAt && (
+                              <p className="participant-project-date">
+                                Отправлен:{" "}
+                                {new Intl.DateTimeFormat("ru-RU", {
+                                  dateStyle: "medium",
+                                  timeStyle: "short",
+                                }).format(
+                                  new Date(
+                                    currentTeam.project.submittedAt,
+                                  ),
+                                )}
+                              </p>
+                            )}
+                          </div>
+                        ) : currentLookup?.membershipRole !== "CAPTAIN" ? (
+                          <p className="org-muted">
+                            {currentTeam.project
+                              ? "Редактировать и отправлять проект может капитан команды."
+                              : "Капитан команды ещё не создал проект."}
+                          </p>
+                        ) : (
+                          <>
+                            <p className="org-muted">
+                              Заполни информацию о проекте и сохрани черновик
+                              перед отправкой.
+                            </p>
+
+                            <form
+                              className="participant-project-form"
+                              onSubmit={handleSaveProject}
+                            >
+                              <label htmlFor="project-name">
+                                Название проекта
+                              </label>
+                              <input
+                                id="project-name"
+                                value={projectName}
+                                onChange={(event) =>
+                                  setProjectName(event.target.value)
+                                }
+                                minLength={3}
+                                maxLength={160}
+                                required
+                                disabled={projectSaving}
+                                placeholder="Например, CityPulse"
+                              />
+
+                              <label htmlFor="project-description">
+                                Описание проекта
+                              </label>
+                              <textarea
+                                id="project-description"
+                                value={projectDescription}
+                                onChange={(event) =>
+                                  setProjectDescription(event.target.value)
+                                }
+                                minLength={10}
+                                maxLength={10000}
+                                rows={5}
+                                required
+                                disabled={projectSaving}
+                                placeholder="Какую проблему решает проект и как он работает?"
+                              />
+
+                              <label htmlFor="project-repository">
+                                HTTPS-ссылка на репозиторий
+                              </label>
+                              <input
+                                id="project-repository"
+                                type="url"
+                                value={projectRepositoryUrl}
+                                onChange={(event) =>
+                                  setProjectRepositoryUrl(
+                                    event.target.value,
+                                  )
+                                }
+                                placeholder="https://github.com/organization/project"
+                                pattern="https://.*"
+                                maxLength={2048}
+                                required
+                                disabled={projectSaving}
+                              />
+
+                              <button
+                                className="org-primary-button"
+                                type="submit"
+                                disabled={projectSaving}
+                              >
+                                {projectSaving
+                                  ? "Сохраняем..."
+                                  : "Сохранить черновик"}
+                              </button>
+                            </form>
+
+                            {currentTeam.project && (
+                              <button
+                                className="participant-submit-project-button"
+                                type="button"
+                                onClick={handleSubmitProject}
+                                disabled={projectSaving}
+                              >
+                                {projectSaving
+                                  ? "Обрабатываем..."
+                                  : "Отправить на оценивание"}
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </section>
                     </>
                   ) : canCreateTeam ? (
                     <form
