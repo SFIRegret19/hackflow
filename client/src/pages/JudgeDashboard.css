@@ -1,0 +1,456 @@
+.judge-main {
+  padding-top: 38px;
+}
+
+.judge-workspace {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.7fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.judge-sidebar,
+.judge-content-panel {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid #e9e8f1;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 5px 16px rgba(38, 33, 61, 0.025);
+}
+
+.judge-hackathon-list,
+.judge-project-list {
+  display: grid;
+  gap: 10px;
+}
+
+.judge-hackathon-option,
+.judge-project-option {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: 15px;
+  border: 1px solid #eceaf3;
+  border-radius: 12px;
+  background: #fff;
+  color: #343148;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.judge-hackathon-option:hover,
+.judge-project-option:hover {
+  border-color: #d9d2fa;
+  background: #fdfcff;
+}
+
+.judge-hackathon-option.is-active,
+.judge-project-option.is-active {
+  border-color: #cfc5ff;
+  background: #f6f3ff;
+  box-shadow: 0 0 0 2px rgba(105, 84, 219, 0.06);
+}
+
+.judge-hackathon-option strong,
+.judge-project-option strong {
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.judge-hackathon-option > span:not(.judge-project-count),
+.judge-hackathon-option small {
+  color: #858297;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.judge-project-count {
+  display: inline-flex;
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: #f1eeff;
+  color: #5c49c1;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.judge-content-panel {
+  min-height: 300px;
+}
+
+.judge-hackathon-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.judge-hackathon-heading h2 {
+  margin: 8px 0;
+  color: #25233a;
+  font-size: 25px;
+  line-height: 1.35;
+  letter-spacing: -0.6px;
+  overflow-wrap: anywhere;
+}
+
+.judge-hackathon-heading p {
+  margin: 0;
+  color: #858297;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.judge-project-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.judge-project-team {
+  color: #6954db;
+  font-size: 10px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.judge-project-option-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+  color: #858297;
+  font-size: 10px;
+}
+
+.judge-project-option-footer > span:last-child {
+  color: #6954db;
+  font-size: 20px;
+}
+
+.judge-review-card {
+  min-width: 0;
+  margin-top: 22px;
+  padding: 22px;
+  border: 1px solid #e9e6f4;
+  border-radius: 15px;
+  background: #fcfbff;
+}
+
+.judge-review-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.judge-review-heading h3 {
+  margin: 8px 0 5px;
+  color: #25233a;
+  font-size: 21px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.judge-review-heading p {
+  margin: 0;
+  color: #6954db;
+  font-size: 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.judge-status-badge {
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.judge-status-badge.pending,
+.judge-status-badge.draft {
+  color: #95641d;
+  border-color: #f2ddb4;
+  background: #fff8eb;
+}
+
+.judge-status-badge.submitted {
+  color: #18794e;
+  border-color: #bee9d7;
+  background: #effaf4;
+}
+
+.judge-project-description {
+  margin: 17px 0 12px;
+  color: #656378;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.judge-repository-link {
+  display: inline-flex;
+  color: #5c49c1;
+  font-size: 12px;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+.judge-repository-link:hover {
+  color: #4533a7;
+}
+
+.judge-project-members {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 17px;
+  border-top: 1px solid #eeecf4;
+}
+
+.judge-project-members > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.judge-member-chip {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 7px 9px;
+  border: 1px solid #e9e5f5;
+  border-radius: 8px;
+  background: #fff;
+  color: #656378;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.judge-submitted-date {
+  margin: 13px 0 0;
+  color: #858297;
+  font-size: 11px;
+}
+
+.judge-evaluation-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 23px;
+}
+
+.judge-score-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid #e8e2ff;
+  border-radius: 12px;
+  background: #f6f3ff;
+}
+
+.judge-score-summary > div {
+  display: grid;
+  gap: 6px;
+}
+
+.judge-score-summary > div > span,
+.judge-score-summary > span {
+  color: #77718f;
+  font-size: 11px;
+}
+
+.judge-score-summary strong {
+  color: #5743bd;
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+.judge-criteria-list {
+  display: grid;
+  gap: 12px;
+}
+
+.judge-criterion-card {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #eceaf3;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.judge-criterion-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.judge-criterion-heading > div {
+  min-width: 0;
+}
+
+.judge-criterion-heading label {
+  color: #343148;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.judge-criterion-heading p {
+  margin: 5px 0 0;
+  color: #858297;
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.judge-criterion-heading > span {
+  flex-shrink: 0;
+  color: #6954db;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.judge-score-field,
+.judge-comment-field {
+  display: grid;
+  gap: 7px;
+}
+
+.judge-score-field label,
+.judge-comment-field label {
+  color: #3a384f;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.judge-score-field input,
+.judge-comment-field textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  border: 1px solid #e3e1ec;
+  border-radius: 9px;
+  outline: none;
+  color: #27253b;
+  background: #fff;
+  font: inherit;
+  font-size: 12px;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.judge-score-field input {
+  min-height: 42px;
+}
+
+.judge-comment-field textarea {
+  min-height: 70px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.judge-score-field input:focus,
+.judge-comment-field textarea:focus {
+  border-color: #9587ed;
+  box-shadow: 0 0 0 3px #6954db18;
+}
+
+.judge-score-field input:disabled,
+.judge-comment-field textarea:disabled {
+  background: #f7f6fb;
+  color: #77758b;
+  cursor: not-allowed;
+}
+
+.judge-evaluation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid #eeecf4;
+}
+
+.judge-evaluation-actions button {
+  max-width: 100%;
+}
+
+.judge-locked-notice {
+  padding: 13px 15px;
+  border: 1px solid #bee9d7;
+  border-radius: 10px;
+  background: #effaf4;
+  color: #18794e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.org-topbar.org-topbar--judge {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.org-topbar.org-topbar--judge .org-topbar-right {
+  grid-column: 2;
+}
+
+@media (max-width: 900px) {
+  .judge-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .judge-sidebar,
+  .judge-content-panel {
+    padding: 19px;
+  }
+}
+
+@media (max-width: 600px) {
+  .judge-main {
+    padding-top: 25px;
+  }
+
+  .judge-project-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .judge-review-card {
+    padding: 16px;
+  }
+
+  .judge-review-heading {
+    flex-direction: column;
+  }
+
+  .judge-score-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .judge-evaluation-actions {
+    flex-direction: column;
+  }
+
+  .judge-evaluation-actions button {
+    width: 100%;
+  }
+}

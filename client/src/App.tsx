@@ -4,6 +4,7 @@ import { apiRequest } from "./lib/api";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
 import ParticipantDashboard from "./pages/ParticipantDashboard";
 import InvitationAcceptance from "./pages/InvitationAcceptance";
+import JudgeDashboard from "./pages/JudgeDashboard";
 
 type Role = "PARTICIPANT" | "ORGANIZER" | "JUDGE";
 
@@ -180,6 +181,19 @@ function App() {
     setError("");
     setNotice("");
     setDashboardView("ORGANIZER");
+  }
+
+  if (
+    !checkingSession &&
+    user !== null &&
+    user.roles.some(({ role }) => role === "JUDGE")
+  ) {
+    return (
+      <JudgeDashboard
+        user={user}
+        onLogoutSuccess={handleDashboardLogoutSuccess}
+      />
+    );
   }
 
   if (

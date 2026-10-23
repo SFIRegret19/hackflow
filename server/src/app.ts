@@ -11,6 +11,8 @@ import { publicHackathonRouter, organizerHackathonRouter } from "./modules/hacka
 import { criteriaRouter } from "./modules/hackathons/criteria.routes.ts";
 import { hackathonTeamsRouter, teamsRouter, invitationsRouter } from "./modules/teams/teams.routes.ts";
 import { teamProjectsRouter } from "./modules/projects/projects.routes.ts";
+import { organizerJudgesRouter } from "./modules/judging/assignments.routes.ts";
+import { judgeRouter } from "./modules/judging/judge.routes.ts";
 
 const app = express();
 
@@ -82,6 +84,13 @@ app.use(
   "/api/organizer/hackathons/:hackathonId/criteria",
   criteriaRouter,
 );
+
+app.use(
+  "/api/organizer/hackathons/:hackathonId/judges",
+  organizerJudgesRouter,
+);
+
+app.use("/api/judge", judgeRouter);
 
 app.use("/api/organizer/hackathons", organizerHackathonRouter);
 
