@@ -14,6 +14,8 @@ import { teamProjectsRouter } from "./modules/projects/projects.routes.ts";
 import { organizerJudgesRouter } from "./modules/judging/assignments.routes.ts";
 import { judgeRouter } from "./modules/judging/judge.routes.ts";
 import { organizerResultsRouter } from "./modules/judging/results.routes.ts";
+import swaggerUi from "swagger-ui-express";
+import openApiDocument from "./docs/openapi.ts";
 
 const app = express();
 
@@ -113,6 +115,18 @@ app.use(
 app.use("/api/teams", teamsRouter);
 
 app.use("/api/invitations", invitationsRouter);
+
+app.get("/docs/openapi.json", (_req, res) => {
+  res.json(openApiDocument);
+});
+
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(openApiDocument, {
+    customSiteTitle: "HackFlow API",
+  }),
+);
 
 app.listen(env.PORT, "127.0.0.1", () => {
   console.log(
