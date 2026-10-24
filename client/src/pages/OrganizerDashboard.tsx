@@ -9,6 +9,7 @@ import {
 import { apiRequest } from "../lib/api";
 import CriteriaPanel, { type Criterion } from "./CriteriaPanel";
 import HackathonResultsPanel from "./HackathonResultsPanel";
+import JudgeAssignmentsPanel from "./JudgeAssignmentsPanel";
 import "./OrganizerDashboard.css";
 
 type Role = "PARTICIPANT" | "ORGANIZER" | "JUDGE";
@@ -123,6 +124,11 @@ export default function OrganizerDashboard({
   } | null>(null);
 
   const [selectedForResults, setSelectedForResults] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
+
+  const [selectedForJudges, setSelectedForJudges] = useState<{
     id: string;
     name: string;
   } | null>(null);
@@ -695,6 +701,18 @@ export default function OrganizerDashboard({
                     </div>
 
                     <div className="org-card-actions">
+                      <button
+                        className="org-secondary-button"
+                        type="button"
+                        onClick={() =>
+                          setSelectedForJudges({
+                            id: hackathon.id,
+                            name: hackathon.name,
+                          })
+                        }
+                      >
+                        Судьи
+                      </button>
                       {hackathon.status !== "DRAFT" && (
                         <button
                           className="org-secondary-button"
@@ -731,6 +749,14 @@ export default function OrganizerDashboard({
                           >
                             Критерии
                           </button>
+
+                          {selectedForJudges && (
+                            <JudgeAssignmentsPanel
+                              hackathonId={selectedForJudges.id}
+                              hackathonName={selectedForJudges.name}
+                              onClose={() => setSelectedForJudges(null)}
+                            />
+                          )}
 
                           <button
                             className="org-publish-button"
@@ -784,11 +810,20 @@ export default function OrganizerDashboard({
           onChanged={() => void loadHackathons()}
         />
       )}
+
       {selectedForResults && (
         <HackathonResultsPanel
           hackathonId={selectedForResults.id}
           hackathonName={selectedForResults.name}
           onClose={() => setSelectedForResults(null)}
+        />
+      )}
+
+      {selectedForJudges && (
+        <JudgeAssignmentsPanel
+          hackathonId={selectedForJudges.id}
+          hackathonName={selectedForJudges.name}
+          onClose={() => setSelectedForJudges(null)}
         />
       )}
     </div>

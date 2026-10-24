@@ -1,0 +1,255 @@
+.judge-assignment-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 24px;
+  background: rgb(25 20 45 / 20%);
+  backdrop-filter: blur(1px);
+}
+
+.judge-assignment-panel {
+  width: min(100%, 680px);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 28px;
+  border: 1px solid #e9e3f5;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 80px rgb(31 21 59 / 22%);
+}
+
+.judge-assignment-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.judge-assignment-header h2 {
+  margin: 8px 0;
+  color: #29213e;
+  font-size: 25px;
+}
+
+.judge-assignment-header p {
+  margin: 0;
+  color: #766e89;
+  overflow-wrap: anywhere;
+}
+
+.judge-assignment-close {
+  display: grid;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #e8e2f1;
+  border-radius: 12px;
+  background: #fff;
+  color: #665b7b;
+  cursor: pointer;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.judge-assignment-close:hover {
+  background: #f5f1fb;
+}
+
+.judge-assignment-close:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.judge-assignment-form {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #ece6f6;
+  border-radius: 16px;
+  background: #faf8fe;
+}
+
+.judge-assignment-form .org-field {
+  display: grid;
+  gap: 8px;
+}
+
+.judge-assignment-form .org-field label {
+  color: #3d3452;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.judge-assignment-form .org-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #dcd3eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #29213e;
+  font: inherit;
+}
+
+.judge-assignment-form .org-field input:focus {
+  border-color: #8a65d7;
+  outline: 3px solid rgb(138 101 215 / 15%);
+}
+
+.judge-assignment-hint {
+  margin: 0;
+  color: #797187;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.judge-assignment-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 28px 0 14px;
+}
+
+.judge-assignment-list-heading h3 {
+  margin: 0 0 5px;
+  color: #302642;
+  font-size: 18px;
+}
+
+.judge-assignment-list-heading span {
+  color: #827890;
+  font-size: 13px;
+}
+
+.judge-assignment-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.judge-assignment-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #eee9f5;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.judge-assignment-avatar {
+  display: grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 13px;
+  background: #eee7fb;
+  color: #7149bd;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.judge-assignment-user {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+}
+
+.judge-assignment-user strong,
+.judge-assignment-user span,
+.judge-assignment-user small {
+  overflow-wrap: anywhere;
+}
+
+.judge-assignment-user strong {
+  color: #302642;
+  font-size: 14px;
+}
+
+.judge-assignment-user span {
+  color: #6d647d;
+  font-size: 13px;
+}
+
+.judge-assignment-user small {
+  color: #91889f;
+  font-size: 12px;
+}
+
+.judge-assignment-status {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: #edf8f1;
+  color: #26784a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.judge-assignment-empty {
+  padding: 24px 16px;
+  border: 1px dashed #ddd4eb;
+  border-radius: 14px;
+  color: #746b84;
+  text-align: center;
+}
+
+.judge-assignment-empty strong {
+  display: block;
+  color: #3d3452;
+}
+
+.judge-assignment-empty p {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.judge-assignment-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+@media (max-width: 600px) {
+  .judge-assignment-overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .judge-assignment-panel {
+    max-height: calc(100vh - 24px);
+    padding: 18px;
+    border-radius: 17px;
+  }
+
+  .judge-assignment-header h2 {
+    font-size: 21px;
+  }
+
+  .judge-assignment-form {
+    padding: 14px;
+  }
+
+  .judge-assignment-list li {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .judge-assignment-status {
+    margin-left: 54px;
+  }
+}
