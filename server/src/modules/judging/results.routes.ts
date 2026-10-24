@@ -46,6 +46,7 @@ const getHackathonResultsHandler: RequestHandler = async (req, res) => {
         id: true,
         name: true,
         status: true,
+        endAt: true,
         criteria: {
           orderBy: [
             { sortOrder: "asc" },
@@ -65,6 +66,13 @@ const getHackathonResultsHandler: RequestHandler = async (req, res) => {
     if (!hackathon) {
       res.status(404).json({
         message: "Хакатон не найден или у вас нет доступа.",
+      });
+      return;
+    }
+
+    if (hackathon.endAt > new Date()) {
+      res.status(403).json({
+        message: "Результаты будут доступны после окончания хакатона.",
       });
       return;
     }
